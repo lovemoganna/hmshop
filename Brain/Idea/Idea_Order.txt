@@ -1,0 +1,97 @@
+业务1——封装实体
+1.常识判断，用户是否登录，从哪个域中获得user对象？（session）
+2.如果是提交，势必就要存储数据到数据库。
+这个时候就要思考如何传递数据。
+无非就是web-service-dao层-数据库
+
+这个时候就考虑，传递什么对象，就封装什么对象。
+这个时候就应该查看数据库建立的表。
+两种方式封装：按照表封，按照页面封装。
+
+/*
+
+orders提取出来的（order是一个关键字，可能会造成冲突，所以是orders）
+  `oid` varchar(32) 订单号
+  `ordertime` datetime 
+  `total` double 
+  `state` int(11) 
+  `address` varchar(30) 
+  `name` varchar(20) 
+  `telephone` varchar(20) 
+  `uid` varchar(32) 
+订单内部有n多订单项
+
+orderitem提取出来的：
+	itemid   订单项编号
+	count ---类似于buyNum，购买的数量
+	subtotal  小计
+	pid   哪个商品
+	oid   属于哪个订单
+
+product提取出来的：
+  `pid` 
+  `pname` 
+  `market_price` 
+  `shop_price` double
+  `pimage` varchar
+  `pdate` date
+  `is_hot` int(11) 
+  `pdesc` varchar
+  `pflag` int(11) 
+  `cid` varchar(32)
+  
+
+*/
+
+Map<String,CartItem> cartItems=new HashMap<String，CartItem>
+对购物车项进行增删，改查，比较当便。允许key value为null.
+描述一个订单有多少个订单项，用集合的方式去做。
+采用List
+订单一旦提交，要么提交，要么取消，就是不能修改。光存数据就可以了。
+
+oid代表与orderItem与order有关系
+为何要写入List<Ordeitem> orderItems=new ArrayList<OrderItem>();?
+该订单有多少订单项。
+层与层之间要传递数据。传递数据的情况下，如果在order内部这么一个集合，
+维护者这个订单项的所有订单项，
+一会儿在传递数据的时候（传递实体），只要传递order对象就可以了获得所有的订单项了。orderItems
+原因就是order内部没有orderItem的具体信息，无法像数据库中传入orderItem的数据。
+
+业务2
+写业务
+
+dao层：
+将哪些数据存到数据库？
+1.订单的信息--orders表
+insert into orders values(?,?,?,?,?,?); 
+(?,?,?,?,?,?)里面装的是order对象
+sql 执行一次
+2.订单项的信息--orderItem表
+insert into orders values(?,?,?,?,?,?);
+(?,?,?,?,?,?)装的是order对象里面的List<OrderItem>
+sql 执行n次
+所以，dao层准备2个方法
+
+
+service 层
+分别调用dao层的
+开启事务
+1.存储order数据的方法
+2.存储orderItem数据的方法
+
+传数据，只要传order对象就可以了。
+提交事务
+
+存订单
+存订单项
+二者必须同时成功
+
+所以要开启事务,
+提交事务
+
+现在做的是订单的功能
+功能与功能之间少污染
+
+web层
+封装Order对象
+调用service层的SubmitOrder方法，传递的参数：Order对象
