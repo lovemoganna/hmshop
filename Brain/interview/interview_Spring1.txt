@@ -6,7 +6,7 @@ B:适用AOP配置声明事务。
 C:整合其他框架。
 
 2.简述AOP和IOC的概念。
-AOP：Aspect Oriented Prodram 
+AOP：Aspect Oriented Program 
 面向切面的编程：filter（过滤器）也是一种AOP
 AOP是一种新的方法论，
 是对传统OOP（object-Oriented Programming面向对象编程的补充）
