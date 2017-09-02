@@ -66,6 +66,8 @@ Map: 可以把键（key）映射到值（value）的对象，键不能够重复�
 
 19、为什么集合类没有实现Cloneable和Serializable接口？
 
+克隆(cloning)或者是序列化(serialization)的语义和含义是跟具体的实现相关的。
+因此，应该由集合类的具体实现来决定如何被克隆或者是序列化。
 
 Integer实现了Serializable,所以可以把一个Integer的对象用IO写到文件里，
 之后再可以从文件里读出，如你开始写入的时候那个对象的intValue() 是5的话，
