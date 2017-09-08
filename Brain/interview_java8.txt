@@ -1,0 +1,50 @@
+JDBC
+72. 什么是 JDBC ？
+JDBC 是允许用户在不同数据库之间做选择的一个抽象层。JDBC 允许开发者用 JAVA 写数据库
+应用程序，而不需要关心底层特定数据库的细节。
+
+73. 解释下驱动(Driver)在 在 JDBC  中的角色。
+JDBC 驱动提供了特定厂商对 JDBC API 接口类的实现，
+驱动必须要提供 java.sql 包下面这些类的实现：
+Connection, Statement, PreparedStatement,CallableStatement, ResultSet 和 Driver。
+
+74.Class.forName() 方法有什么作 用？
+这个方法用来载入跟数据库建立连接的驱动。
+
+75.PreparedStatement 比 比 Statement  有什么优势？
+PreparedStatements 是预编译的，因此，性能会更好。同时，不同的查询参数值，
+PreparedStatement 可以重用。
+
+76. 什么时候使用 CallableStatement ？用来准备 CallableStatement  的方法是什么？
+CallableStatement 用来执行存储过程。存储过程是由数据库存储和提供的。存储过程可以接
+受输入参数，也可以有返回结果。非常鼓励使用存储过程，因为它提供了安全性和模块化。
+准备一个 CallableStatement 的方法是：
+CallableStament.prepareCall();
+
+77. 数据库连接池是什么意思？
+像打开关闭数据库连接这种和数据库的交互可能是很费时的，尤其是当客户端数量增加的时
+候，会消耗大量的资源，成本是非常高的。可以在应用服务器启动的时候建立很多个数据库
+连接并维护在一个池中。连接请求由池中的连接提供。在连接使用完毕以后，把连接归还到
+池中，以用于满足将来更多的请求。
+
+远程方法调用(RMI)
+
+78. 什么是 RMI ？
+Java 远程方法调用(Java RMI)是 Java API 对远程过程调用(RPC)提供的面向对象的等价形式，
+支持直接传输序列化的 Java 对象和分布式垃圾回收。远程方法调用可以看做是激活远程正
+在运行的对象上的方法的步骤。RMI 对调用者是位置透明的，因为调用者感觉方法是执行在
+本地运行的对象上的。看下 RMI 的一些注意事项。
+
+79.RMI  体系结构的基本原则是什么？
+
+RMI 体系结构是基于一个非常重要的行为定义和行为实现相分离的原则。RMI 允许定义行为
+的代码和实现行为的代码相分离，并且运行在不同的 JVM 上。
+
+80.RMI  体系结构分哪几层？
+RMI 体系结构分以下几层：
+存根和骨架层(Stub and Skeleton layer)：这一层对程序员是透明的，它主要负责拦截客户端
+发出的方法调用请求，然后把请求重定向给远程的 RMI 服务。
+远程引用层(Remote Reference Layer)：RMI 体系结构的第二层用来解析客户端对服务端远程
+对象的引用。这一层解析并管理客户端对服务端远程对象的引用。连接是点到点的。
+传输层(Transport layer)：这一层负责连接参与服务的两个 JVM。这一层是建立在网络上机器
+间的 TCP/IP 连接之上的。它提供了基本的连接服务，还有一些防火墙穿透策略。
